@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from main.forms import CommentForm
 from main.models import Comment
 
 
+@login_required
 def add_comment(request):
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -20,6 +22,7 @@ def add_comment(request):
     return render(request, 'comments/add_comment.html', {'form': form})
 
 
+@login_required
 def view_comments(request):
     comments = Comment.objects.filter(parent_comment=None)  # Получение корневых комментариев (без родителя)
     return render(request, 'comments/view_comments.html', {'comments': comments})
