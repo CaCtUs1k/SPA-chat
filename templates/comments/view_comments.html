@@ -1,19 +1,5 @@
-{% for comment in comments %}
-    <div>
-        <p>{{ comment.text }}</p>
-        <!-- Отображение формы для добавления ответа -->
-        <form method="post" action="{% url 'add_comment' %}">
-            {% csrf_token %}
-            <input type="hidden" name="parent_comment" value="{{ comment.id }}">
-            <!-- Другие поля формы... -->
-            <button type="submit">Reply</button>
-        </form>
+{% extends "base.html" %}
 
-        <!-- Рекурсивный вызов для дочерних комментариев -->
-        {% if comment.get_child_comments %}
-            <div style="margin-left: 20px;">
-                {% include 'comments/view_comments.html' with comments=comment.get_child_comments %}
-            </div>
-        {% endif %}
-    </div>
-{% endfor %}
+{% block content %}
+  {% include "comments/view_comments_recurse_part.html" %}
+{% endblock %}
