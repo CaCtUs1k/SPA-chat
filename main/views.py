@@ -1,4 +1,4 @@
-from django.contrib import messages
+import bleach
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -13,16 +13,17 @@ def add_comment(request):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            if not request.recaptcha_is_valid:
-                messages.error(request, "Invalid reCAPTCHA. Please try again.")
-            else:
+            if request.recaptcha_is_valid:
                 parent_comment_id = form.cleaned_data.get('parent_comment')
                 parent_comment = None
                 if parent_comment_id:
                     parent_comment = Comment.objects.get(pk=parent_comment_id)
+
+                allowed_tags = ['i', 'strong', 'a', 'code']
+                cleaned_text = bleach.clean(form.cleaned_data.get('text'), tags=allowed_tags)
                 Comment.objects.create(
                     home_page=form.cleaned_data.get('home_page'),
-                    text=form.cleaned_data.get('text'),
+                    text=cleaned_text,
                     parent_comment=parent_comment,
                     username=request.user.username,
                     email=request.user.email

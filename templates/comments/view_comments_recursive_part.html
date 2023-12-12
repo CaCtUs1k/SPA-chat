@@ -1,7 +1,7 @@
 
 {% for comment in comments %}
   <div>
-    <p>{{ comment.text }}</p>
+    <p>{{ comment.text|safe }}</p>
     <!-- Отображение формы для добавления ответа -->
     <form method="post" action="{% url 'main:add_comment' %}">
       {% csrf_token %}
