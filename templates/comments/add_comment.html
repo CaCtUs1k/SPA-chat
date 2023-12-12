@@ -3,12 +3,54 @@
 {% block content %}
 <body>
   <h2>Add Comment</h2>
-  <form method="post" action="{% url 'main:add_comment' %}">
+  <form method="post" action="{% url 'main:add_comment' %}" onsubmit="return validateForm(this);">
     {% csrf_token %}
     {{ form|crispy }}
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    <div class="form-group g-recaptcha" data-sitekey="6Le-pC4pAAAAAH1Duy4ieCg6_Tm6OMhbE-CmsedQ"></div>
-    <button type="submit">Submit</button>
+
+    <div id="button-panel">
+      <button class="btn btn-primary mr-2" type="button" onclick="insertTag('<i>', '</i>')">[i]</button>
+      <button class="btn btn-primary mr-2" type="button" onclick="insertTag('<strong>', '</strong>')">[strong]</button>
+      <button class="btn btn-primary mr-2" type="button" onclick="insertTag('<code>', '</code>')">[code]</button>
+      <button class="btn btn-primary mr-2" type="button" onclick="insertTag('<a href=>', '</a>')">[a]</button>
+    </div>
+
+    <div class="form-group g-recaptcha mt-3" data-sitekey="6Le-pC4pAAAAAH1Duy4ieCg6_Tm6OMhbE-CmsedQ"></div>
+    <button class="btn btn-primary mt-1" type="submit">Submit</button>
   </form>
+
+  <script>
+    function insertTag(openTag, closeTag) {
+      const textArea = document.querySelector('textarea');
+      const startPos = textArea.selectionStart;
+      const endPos = textArea.selectionEnd;
+
+      const selectedText = textArea.value.substring(startPos, endPos);
+      const replacement = `${openTag}${selectedText}${closeTag}`;
+
+      textArea.value =
+        textArea.value.substring(0, startPos) +
+        replacement +
+        textArea.value.substring(endPos, textArea.value.length);
+
+      textArea.focus();
+      textArea.setSelectionRange(startPos + openTag.length, startPos + openTag.length + selectedText.length);
+    }
+
+    function validateForm(form) {
+      const textArea = form.querySelector('textarea');
+      const commentText = textArea.value;
+
+      const openTagCount = (commentText.match(/<[^/]/g) || []).length;
+      const closeTagCount = (commentText.match(/<\/[^/]/g) || []).length;
+
+      if (openTagCount === closeTagCount) {
+        return true;
+      } else {
+        alert('Please make sure all tags are closed correctly.');
+        return false;
+      }
+    }
+  </script>
 </body>
 {% endblock %}

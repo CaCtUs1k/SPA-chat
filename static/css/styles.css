@@ -1,0 +1,30 @@
+.comment-container {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px 0 10px 10px;
+  background-color: rgb(128, 128, 128, 10%);
+
+}
+
+.comment-text {
+  margin-bottom: 10px;
+}
+
+.child-comments {
+  margin: 10px 0 0 10px;
+}
+
+.new-thread {
+  margin-bottom: 20px;
+}
+
+.email {
+  display: block;
+  padding: 0 0 0 10px
+}
+
+.author-inform {
+  color: #525252;
+  display: flex;
+}

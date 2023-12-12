@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% include "comments/view_comments_recursive_part.html" %}
+  <h1>Comments</h1>
   <a href="{% url 'main:add_comment' %}">
-    <button>Create New Thread</button>
+    <button class="btn btn-success new-thread">Create New Thread</button>
   </a>
+  {% include "comments/view_comments_recursive_part.html" %}
 {% endblock %}
