@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -12,13 +13,21 @@ def add_comment(request):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            parent_comment_id = form.cleaned_data.get('parent_comment')
-            if parent_comment_id:
-                form.instance.parent_comment = parent_comment_id
-            form.instance.username = request.user.username
-            form.instance.email = request.user.email
-            form.save()
-            return redirect('main:view_comments')
+            if not request.recaptcha_is_valid:
+                messages.error(request, "Invalid reCAPTCHA. Please try again.")
+            else:
+                parent_comment_id = form.cleaned_data.get('parent_comment')
+                parent_comment = None
+                if parent_comment_id:
+                    parent_comment = Comment.objects.get(pk=parent_comment_id)
+                Comment.objects.create(
+                    home_page=form.cleaned_data.get('home_page'),
+                    text=form.cleaned_data.get('text'),
+                    parent_comment=parent_comment,
+                    username=request.user.username,
+                    email=request.user.email
+                )
+                return redirect('main:view_comments')
     else:
         form = CommentForm()
 
