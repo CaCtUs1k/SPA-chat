@@ -24,7 +24,20 @@
   padding: 0 0 0 10px
 }
 
-.author-inform {
+.comment-inform {
   color: #525252;
   display: flex;
+}
+
+.sort-button {
+  padding-inline-start: 0;
+  color: #cccccc;
+}
+.sort-button a{
+  text-decoration: none;
+  color: white;
+}
+.sort-button a:hover{
+  text-decoration: none;
+  color: white;
 }

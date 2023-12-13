@@ -1,6 +1,7 @@
 import bleach
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import F
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
@@ -43,4 +44,21 @@ class ViewComments(LoginRequiredMixin, ListView):
     paginate_by = 25
 
     def get_queryset(self):
-        return Comment.objects.filter(parent_comment=None)
+        queryset = Comment.objects.filter(parent_comment=None)
+        ordering = self.get_ordering()
+        queryset = queryset.order_by(ordering)
+        if self.request.GET.get('reverse'):
+            queryset = queryset.reverse()
+        return queryset
+
+    def get_ordering(self):
+        ordering = self.request.GET.get('ordering', 'created_at')
+        if ordering in ['username', 'email', 'created_at']:
+            return ordering
+        return 'id'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ordering'] = self.get_ordering()
+        context['reverse'] = self.request.GET.get('reverse')
+        return context

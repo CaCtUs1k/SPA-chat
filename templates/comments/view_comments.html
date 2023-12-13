@@ -5,5 +5,24 @@
   <a href="{% url 'main:add_comment' %}">
     <button class="btn btn-success new-thread">Create New Thread</button>
   </a>
+  <ul class="sort-button">
+    {% if ordering == 'username' and not reverse %}
+    {% endif %}
+    <li {% if ordering != 'username' %}class="btn btn-primary"{% endif %}
+        {% if ordering == 'username' and not reverse %}class="btn btn-success"{% endif %}
+        {% if ordering == 'username' and reverse %}class="btn btn-danger"{% endif %}>
+      <a href="?ordering=username{% if ordering == 'username' and not reverse %}&reverse=1{% endif %}">User Name</a>
+    </li>
+    <li {% if ordering != 'email' %}class="btn btn-primary"{% endif %}
+        {% if ordering == 'email' and not reverse %}class="btn btn-success"{% endif %}
+        {% if ordering == 'email' and reverse %}class="btn btn-danger"{% endif %}>
+      <a href="?ordering=email{% if ordering == 'email' and not reverse %}&reverse=1{% endif %}">E-mail</a>
+    </li>
+    <li {% if ordering != 'created_at' %}class="btn btn-primary"{% endif %}
+        {% if ordering == 'created_at' and not reverse %}class="btn btn-success"{% endif %}
+        {% if ordering == 'created_at' and reverse %}class="btn btn-danger"{% endif %}>
+      <a href="?ordering=created_at{% if ordering == 'created_at' and not reverse %}&reverse=1{% endif %}">Date Added</a>
+    </li>
+  </ul>
   {% include "comments/view_comments_recursive_part.html" %}
 {% endblock %}

@@ -1,9 +1,9 @@
 
 {% for comment in comments %}
   <div class="comment-container">
-    <div class="author-inform">
+    <div class="comment-inform">
       <h5>{{ comment.username }}</h5>
-      <p class="email">{{ comment.email }}</p>
+      <p class="email">{{ comment.created_at }}</p>
     </div>
     <div class="comment-text">
       <p>{{ comment.text|safe }}</p>
