@@ -1,0 +1,22 @@
+
+{% for comment in comments %}
+  <div class="comment-container">
+    <div class="comment-inform">
+      <h5>{{ comment.username }}</h5>
+      <p class="email">{{ comment.created_at }}</p>
+    </div>
+    <div class="comment-text">
+      <p>{{ comment.text|safe }}</p>
+    </div>
+    <form method="post" action="{% url 'main:add_comment' %}">
+      {% csrf_token %}
+      <input type="hidden" name="parent_comment" value="{{ comment.id }}">
+      <button class="btn btn-primary" type="submit">Reply</button>
+    </form>
+    {% if comment.get_child_comments %}
+      <div class="child-comments">
+        {% include 'comments/view_comments_recursive_part.html' with comments=comment.get_child_comments %}
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}

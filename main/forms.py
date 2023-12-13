@@ -1,10 +1,8 @@
 from django import forms
 
-from main.models import Comment
 
-
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['user_name', 'email', 'home_page', 'captcha', 'text', 'parent_comment']
+class CommentForm(forms.Form):
+    home_page = forms.URLField(required=False)
+    text = forms.CharField(widget=forms.Textarea)
+    parent_comment = forms.IntegerField(required=False, widget=forms.HiddenInput())
 
