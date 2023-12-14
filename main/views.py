@@ -22,13 +22,13 @@ def add_comment(request):
             allowed_tags = ['i', 'strong', 'a', 'code']
             cleaned_text = bleach.clean(form.cleaned_data.get('text'), tags=allowed_tags)
             file = form.cleaned_data.get('file')
-            compress_image(file)
+            if file:
+                compress_image(file)
             Comment.objects.create(
                 home_page=form.cleaned_data.get('home_page'),
                 text=cleaned_text,
                 parent_comment=parent_comment,
-                username=request.user.username,
-                email=request.user.email,
+                sender=request.user,
                 attachment=file
             )
             return redirect('main:view_comments')
