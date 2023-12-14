@@ -11,7 +11,7 @@ from main.models import Comment
 @login_required
 def add_comment(request):
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = CommentForm(request.POST, request.FILES)
         if form.is_valid():
             if request.recaptcha_is_valid:
                 parent_comment_id = form.cleaned_data.get('parent_comment')
@@ -26,7 +26,8 @@ def add_comment(request):
                     text=cleaned_text,
                     parent_comment=parent_comment,
                     username=request.user.username,
-                    email=request.user.email
+                    email=request.user.email,
+                    attachment=form.cleaned_data.get('file')
                 )
                 return redirect('main:view_comments')
     else:

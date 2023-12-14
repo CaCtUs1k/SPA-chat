@@ -3,7 +3,7 @@
 {% block content %}
 <body>
   <h2>Add Comment</h2>
-  <form method="post" action="{% url 'main:add_comment' %}" onsubmit="return validateForm(this);">
+  <form method="post" action="{% url 'main:add_comment' %}" enctype="multipart/form-data" onsubmit="return validateForm(this); ">
     {% csrf_token %}
     {{ form|crispy }}
     <script src='https://www.google.com/recaptcha/api.js'></script>

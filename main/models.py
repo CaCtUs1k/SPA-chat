@@ -1,5 +1,7 @@
 from django.db import models
 
+from main.utils import validate_file_field
+
 
 class Comment(models.Model):
     username = models.CharField(max_length=255)
@@ -8,6 +10,9 @@ class Comment(models.Model):
     text = models.TextField()
     parent_comment = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    attachment = models.FileField(upload_to='comment_attachments/', null=True, blank=True, max_length=255,
+                                  validators=[validate_file_field])
 
     def __str__(self):
         return f'{self.username} {self.created_at}'
