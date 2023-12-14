@@ -10,14 +10,14 @@
       <p>{{ comment.text|safe }}</p>
       {% if comment.attachment %}
         {% if comment.attachment.name|slice:'-4:'|lower == '.txt' %}
-          <a href="{{ comment.attachment.url }}" data-fancybox data-type="text">
+          <a href="{{ comment.attachment.url }}" data-type="text">
             <img style="border-radius: 20px; max-width: 60px; max-height: 80px;"
-             src="{% static "img/txt-icon.png" %}" alt="txt-icon" class="poster-image">
+             src="{% static "img/txt-icon.png" %}" alt="txt-icon" class="comment-image">
           </a>
         {% else %}
           <a href="{{ comment.attachment.url }}" data-fancybox>
             <img style="border-radius: 20px; max-width: 60px; max-height: 80px;"
-            src="{{ comment.attachment.url }}" alt="Err" class="poster-image">
+            src="{{ comment.attachment.url }}" alt="Err" class="comment-image">
           </a>
         {% endif %}
       {% endif %}
