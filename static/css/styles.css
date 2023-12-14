@@ -3,7 +3,7 @@
   border: 1px solid #ccc;
   border-radius: 20px;
   padding: 10px 0 10px 10px;
-  background-color: rgb(128, 128, 128, 10%);
+  background-color: rgb(128, 128, 128, 7%);
 
 }
 
@@ -19,13 +19,13 @@
   margin-bottom: 20px;
 }
 
-.email {
+.created_at {
   display: block;
   padding: 0 0 0 10px
 }
 
 .comment-inform {
-  color: #525252;
+  color: #4b4b4b;
   display: flex;
 }
 

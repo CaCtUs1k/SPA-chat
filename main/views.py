@@ -6,29 +6,32 @@ from django.views.generic import ListView
 
 from main.forms import CommentForm
 from main.models import Comment
+from main.utils import compress_image
 
 
 @login_required
 def add_comment(request):
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            if request.recaptcha_is_valid:
-                parent_comment_id = form.cleaned_data.get('parent_comment')
-                parent_comment = None
-                if parent_comment_id:
-                    parent_comment = Comment.objects.get(pk=parent_comment_id)
+        form = CommentForm(request.POST, request.FILES)
+        if form.is_valid() and request.recaptcha_is_valid:
+            parent_comment_id = form.cleaned_data.get('parent_comment')
+            parent_comment = None
+            if parent_comment_id:
+                parent_comment = Comment.objects.get(pk=parent_comment_id)
 
-                allowed_tags = ['i', 'strong', 'a', 'code']
-                cleaned_text = bleach.clean(form.cleaned_data.get('text'), tags=allowed_tags)
-                Comment.objects.create(
-                    home_page=form.cleaned_data.get('home_page'),
-                    text=cleaned_text,
-                    parent_comment=parent_comment,
-                    username=request.user.username,
-                    email=request.user.email
-                )
-                return redirect('main:view_comments')
+            allowed_tags = ['i', 'strong', 'a', 'code']
+            cleaned_text = bleach.clean(form.cleaned_data.get('text'), tags=allowed_tags)
+            file = form.cleaned_data.get('file')
+            if file:
+                compress_image(file)
+            Comment.objects.create(
+                home_page=form.cleaned_data.get('home_page'),
+                text=cleaned_text,
+                parent_comment=parent_comment,
+                sender=request.user,
+                attachment=file
+            )
+            return redirect('main:view_comments')
     else:
         form = CommentForm()
 
