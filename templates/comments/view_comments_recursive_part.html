@@ -1,3 +1,4 @@
+{% load static %}
 
 {% for comment in comments %}
   <div class="comment-container">
@@ -7,6 +8,19 @@
     </div>
     <div class="comment-text">
       <p>{{ comment.text|safe }}</p>
+      {% if comment.attachment %}
+        {% if comment.attachment.name|slice:'-4:'|lower == '.txt' %}
+          <a href="{{ comment.attachment.url }}" data-fancybox data-type="text">
+            <img style="border-radius: 20px; max-width: 60px; max-height: 80px;"
+             src="{% static "img/txt-icon.png" %}" alt="txt-icon" class="poster-image">
+          </a>
+        {% else %}
+          <a href="{{ comment.attachment.url }}" data-fancybox>
+            <img style="border-radius: 20px; max-width: 60px; max-height: 80px;"
+            src="{{ comment.attachment.url }}" alt="Err" class="poster-image">
+          </a>
+        {% endif %}
+      {% endif %}
     </div>
     <form method="post" action="{% url 'main:add_comment' %}">
       {% csrf_token %}
