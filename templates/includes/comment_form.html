@@ -10,7 +10,7 @@
     <button class="btn btn-primary mr-2" type="button" onclick="insertTag('<a href=>', '</a>', this)">Link</button>
   </div>
 
-  <input type="hidden" name="parent_comment" value="{{ comment.id }}">
+  <input type="hidden" name="parent_id" value="{{ comment.id }}">
 
   {{ form|crispy }}
 

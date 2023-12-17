@@ -14,7 +14,7 @@ def add_comment(request):
     if request.method == "POST":
         form = CommentForm(request.POST, request.FILES)
         if form.is_valid() and request.recaptcha_is_valid:
-            parent_comment_id = form.cleaned_data.get("parent_comment")
+            parent_comment_id = request.POST.get("parent_id")
             parent_comment = None
             if parent_comment_id:
                 parent_comment = Comment.objects.get(pk=parent_comment_id)
