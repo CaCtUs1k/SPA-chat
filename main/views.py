@@ -62,5 +62,27 @@ class ViewComments(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['ordering'] = self.get_ordering()
+        context['form'] = CommentForm()
         context['reverse'] = self.request.GET.get('reverse')
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST, request.FILES)
+
+        if form.is_valid() and request.recaptcha_is_valid:
+            allowed_tags = ['i', 'strong', 'a', 'code']
+            cleaned_text = bleach.clean(form.cleaned_data.get('text'), tags=allowed_tags)
+            file = form.cleaned_data.get('file')
+
+            if file:
+                compress_image(file)
+
+            Comment.objects.create(
+                home_page=form.cleaned_data.get('home_page'),
+                text=cleaned_text,
+                parent_comment=None,
+                sender=request.user,
+                attachment=file
+            )
+
+        return self.get(request, *args, **kwargs)
