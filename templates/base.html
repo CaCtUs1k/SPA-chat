@@ -17,6 +17,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 </head>
 <body class="body">
+
   {% block header %}
     {% include "includes/header.html" %}
   {% endblock %}
@@ -42,6 +43,7 @@
     </div>
   </div>
 </body>
+
 <script>
   $(document).ready(function () {
     $('[data-fancybox]').fancybox({
@@ -49,4 +51,5 @@
     });
   });
 </script>
+
 </html>
