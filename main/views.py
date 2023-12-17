@@ -31,11 +31,7 @@ def add_comment(request):
                 sender=request.user,
                 attachment=file
             )
-            return redirect('main:view_comments')
-    else:
-        form = CommentForm()
-
-    return render(request, 'comments/add_comment.html', {'form': form})
+    return redirect('/')
 
 
 class ViewComments(LoginRequiredMixin, ListView):
@@ -46,7 +42,7 @@ class ViewComments(LoginRequiredMixin, ListView):
     paginate_by = 25
 
     def get_queryset(self):
-        queryset = Comment.objects.filter(parent_comment=None)
+        queryset = Comment.objects.select_related('parent_comment', 'sender').filter(parent_comment=None)
         ordering = self.get_ordering()
         queryset = queryset.order_by(ordering)
         if self.request.GET.get('reverse'):
@@ -55,9 +51,9 @@ class ViewComments(LoginRequiredMixin, ListView):
 
     def get_ordering(self):
         ordering = self.request.GET.get('ordering', 'created_at')
-        if ordering in ['username', 'email', 'created_at']:
-            return ordering
-        return 'id'
+        if ordering in ['username', 'email']:
+            return f"sender__{ordering}"
+        return 'created_at'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -67,22 +63,5 @@ class ViewComments(LoginRequiredMixin, ListView):
         return context
 
     def post(self, request, *args, **kwargs):
-        form = CommentForm(request.POST, request.FILES)
+        add_comment(request)
 
-        if form.is_valid() and request.recaptcha_is_valid:
-            allowed_tags = ['i', 'strong', 'a', 'code']
-            cleaned_text = bleach.clean(form.cleaned_data.get('text'), tags=allowed_tags)
-            file = form.cleaned_data.get('file')
-
-            if file:
-                compress_image(file)
-
-            Comment.objects.create(
-                home_page=form.cleaned_data.get('home_page'),
-                text=cleaned_text,
-                parent_comment=None,
-                sender=request.user,
-                attachment=file
-            )
-
-        return self.get(request, *args, **kwargs)

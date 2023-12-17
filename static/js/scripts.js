@@ -1,5 +1,6 @@
-function insertTag(openTag, closeTag) {
-  const textArea = document.querySelector('textarea');
+function insertTag(openTag, closeTag, button) {
+  const form = button.closest('form');
+  const textArea = form.querySelector('textarea');
   const startPos = textArea.selectionStart;
   const endPos = textArea.selectionEnd;
 
@@ -28,4 +29,34 @@ function validateForm(form) {
     alert('Please make sure all tags are closed correctly.');
     return false;
   }
+}
+function SwitchReply(parent_id) {
+    const switch_form_visibility = document.querySelector(`.switch-form-visibility-${parent_id}`)
+    const show_form_button = document.querySelector(`#show-form-button-${parent_id}`)
+
+    if (switch_form_visibility) {
+        if (switch_form_visibility.style.display === 'block') {
+            switch_form_visibility.style.display = 'none';
+            show_form_button.innerText = "Reply"
+        }
+        else {
+            switch_form_visibility.style.display = 'block';
+            show_form_button.innerText = "Discard"
+        }
+    }
+}
+function SwitchNewThread() {
+    const switch_form_visibility = document.querySelector(`.switch-form-visibility`)
+    const show_form_button = document.querySelector(`#show-form-button`)
+
+    if (switch_form_visibility) {
+        if (switch_form_visibility.style.display === 'block') {
+            switch_form_visibility.style.display = 'none';
+            show_form_button.innerText = "Reply"
+        }
+        else {
+            switch_form_visibility.style.display = 'block';
+            show_form_button.innerText = "Discard"
+        }
+    }
 }
