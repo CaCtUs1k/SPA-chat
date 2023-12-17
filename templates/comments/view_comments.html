@@ -1,22 +1,23 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
   <h1>Comments</h1>
-  <a href="{% url 'main:add_comment' %}">
-    <button class="btn btn-success new-thread">Create New Thread</button>
-  </a>
+    <div class="switch-form-visibility{{ comment.id }}" style="display: none">{% include 'includes/comment_form.html' %}</div>
+    <a class="btn btn-success mt-2" id="show-form-button{{ comment.id }}" onclick="SwitchNewThread({{ comment.id }})">Create New Thread</a>
+  <hr>
   <ul class="sort-button">
     {% if ordering == 'username' and not reverse %}
     {% endif %}
-    <li {% if ordering != 'username' %}class="btn btn-primary"{% endif %}
-        {% if ordering == 'username' and not reverse %}class="btn btn-success"{% endif %}
-        {% if ordering == 'username' and reverse %}class="btn btn-danger"{% endif %}>
-      <a href="?ordering=username{% if ordering == 'username' and not reverse %}&reverse=1{% endif %}">User Name</a>
+    <li {% if ordering != 'sender__username' %}class="btn btn-primary"{% endif %}
+        {% if ordering == 'sender__username' and not reverse %}class="btn btn-success"{% endif %}
+        {% if ordering == 'sender__username' and reverse %}class="btn btn-danger"{% endif %}>
+      <a href="?ordering=username{% if ordering == 'sender__username' and not reverse %}&reverse=1{% endif %}">User Name</a>
     </li>
-    <li {% if ordering != 'email' %}class="btn btn-primary"{% endif %}
-        {% if ordering == 'email' and not reverse %}class="btn btn-success"{% endif %}
-        {% if ordering == 'email' and reverse %}class="btn btn-danger"{% endif %}>
-      <a href="?ordering=email{% if ordering == 'email' and not reverse %}&reverse=1{% endif %}">E-mail</a>
+    <li {% if ordering != 'sender__email' %}class="btn btn-primary"{% endif %}
+        {% if ordering == 'sender__email' and not reverse %}class="btn btn-success"{% endif %}
+        {% if ordering == 'sender__email' and reverse %}class="btn btn-danger"{% endif %}>
+      <a href="?ordering=email{% if ordering == 'sender__email' and not reverse %}&reverse=1{% endif %}">E-mail</a>
     </li>
     <li {% if ordering != 'created_at' %}class="btn btn-primary"{% endif %}
         {% if ordering == 'created_at' and not reverse %}class="btn btn-success"{% endif %}

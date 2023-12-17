@@ -8,6 +8,9 @@
     </div>
     <div class="comment-text">
       <p>{{ comment.text|safe }}</p>
+      {% if comment.home_page %}
+        <a class="" href="{{ comment.home_page }}">Link</a>
+      {% endif %}
       {% if comment.attachment %}
         {% if comment.attachment.name|slice:'-4:'|lower == '.txt' %}
           <a href="{{ comment.attachment.url }}" data-type="text">
@@ -22,11 +25,8 @@
         {% endif %}
       {% endif %}
     </div>
-    <form method="post" action="{% url 'main:add_comment' %}">
-      {% csrf_token %}
-      <input type="hidden" name="parent_comment" value="{{ comment.id }}">
-      <button class="btn btn-primary" type="submit">Reply</button>
-    </form>
+      <div class="switch-form-visibility-{{ comment.id }}" style="display: none">{% include 'includes/comment_form.html' %}</div>
+      <a class="btn btn-primary mt-2" id="show-form-button-{{ comment.id }}" onclick="SwitchReply({{ comment.id }})">Reply</a>
     {% if comment.get_child_comments %}
       <div class="child-comments">
         {% include 'comments/view_comments_recursive_part.html' with comments=comment.get_child_comments %}
