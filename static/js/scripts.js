@@ -30,6 +30,7 @@ function validateForm(form) {
     return false;
   }
 }
+
 function SwitchReply(parent_id) {
     const switch_form_visibility = document.querySelector(`.switch-form-visibility-${parent_id}`)
     const show_form_button = document.querySelector(`#show-form-button-${parent_id}`)
@@ -45,6 +46,7 @@ function SwitchReply(parent_id) {
         }
     }
 }
+
 function SwitchNewThread() {
     const switch_form_visibility = document.querySelector(`.switch-form-visibility`)
     const show_form_button = document.querySelector(`#show-form-button`)
