@@ -11,6 +11,11 @@
   margin-bottom: 10px;
 }
 
+.comment-inform {
+  color: #4b4b4b;
+  display: flex;
+}
+
 .child-comments {
   margin: 10px 0 0 10px;
 }
@@ -24,23 +29,21 @@
   padding: 0 0 0 10px
 }
 
-.comment-inform {
-  color: #4b4b4b;
-  display: flex;
-}
-
 .sort-button {
   padding-inline-start: 0;
   color: #cccccc;
 }
+
 .sort-button a{
   text-decoration: none;
   color: white;
 }
+
 .sort-button a:hover{
   text-decoration: none;
   color: white;
 }
+
 .btn-primary {
   color: #fff!important;
 }
