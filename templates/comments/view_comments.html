@@ -4,8 +4,8 @@
 {% block content %}
   <h1>Comments</h1>
 
-  <div class="switch-form-visibility{{ comment.id }}" style="display: none">{% include 'includes/comment_form.html' %}</div>
-  <a class="btn btn-success mt-2" id="show-form-button{{ comment.id }}" onclick="SwitchNewThread({{ comment.id }})">Create New Thread</a>
+  <div class="switch-form-visibility-" style="display: none">{% include 'includes/comment_form.html' %}</div>
+  <a class="btn btn-success mt-2" id="show-form-button-" onclick="SwitchNewThread({{ comment.id }})">Create New Thread</a>
 
   <hr>
 
