@@ -28,12 +28,15 @@ def compress_image(image):
     valid_extensions = ["png", "gif", "jpg", "jpeg"]
     extension = image.name.lower().split(".")[-1]
     if extension in valid_extensions:
+        extension = extension.upper()
+        if extension == "JPG":
+            extension = "JPEG"
         img = Image.open(image)
         max_width = 320
         max_height = 240
         img.thumbnail((max_width, max_height))
         image_io = BytesIO()
-        img.save(image_io, format="JPEG")
+        img.save(image_io, format=f"{extension}")
 
         image_io.seek(0)
         image.file = image_io
