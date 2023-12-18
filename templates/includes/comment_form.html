@@ -10,11 +10,31 @@
     <button class="btn btn-primary mr-2" type="button" onclick="insertTag('<a href=>', '</a>', this)">Link</button>
   </div>
 
-  <input type="hidden" name="parent_comment" value="{{ comment.id }}">
+  <div id="text-preview-{{ comment.id }}">Formatted text</div>
+
+  <input type="hidden" name="parent_id" value="{{ comment.id }}">
 
   {{ form|crispy }}
 
   <div class="form-group g-recaptcha mt-3" data-sitekey="6Le-pC4pAAAAAH1Duy4ieCg6_Tm6OMhbE-CmsedQ"></div>
+
   <button class="btn btn-primary mt-1" type="submit">Submit</button>
 
 </form>
+<script>
+  function updatePreview(commentId = null) {
+    if (commentId === null) {
+      var text = document.querySelector("#comment-form-" + " textarea[name='text']").value;
+      var preview = document.getElementById("text-preview-");
+      preview.innerHTML = text;
+    }
+    else {
+      var text = document.querySelector("#comment-form-" + commentId + " textarea[name='text']").value;
+      var preview = document.getElementById("text-preview-" + commentId);
+      preview.innerHTML = text;
+    }
+  }
+    document.querySelector("#comment-form-{{ comment.id }} textarea[name='text']").addEventListener("input", function () {
+        updatePreview({{ comment.id }});
+    });
+</script>

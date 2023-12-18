@@ -14,6 +14,7 @@ function insertTag(openTag, closeTag, button) {
 
   textArea.focus();
   textArea.setSelectionRange(startPos + openTag.length, startPos + openTag.length + selectedText.length);
+  updatePreview(form.id.split('-')[2]);
 }
 
 function validateForm(form) {
@@ -31,7 +32,7 @@ function validateForm(form) {
   }
 }
 
-function SwitchReply(parent_id) {
+function SwitchReply(parent_id=NaN) {
     const switch_form_visibility = document.querySelector(`.switch-form-visibility-${parent_id}`)
     const show_form_button = document.querySelector(`#show-form-button-${parent_id}`)
 
@@ -48,13 +49,13 @@ function SwitchReply(parent_id) {
 }
 
 function SwitchNewThread() {
-    const switch_form_visibility = document.querySelector(`.switch-form-visibility`)
-    const show_form_button = document.querySelector(`#show-form-button`)
+    const switch_form_visibility = document.querySelector(`.switch-form-visibility-`)
+    const show_form_button = document.querySelector(`#show-form-button-`)
 
     if (switch_form_visibility) {
         if (switch_form_visibility.style.display === 'block') {
             switch_form_visibility.style.display = 'none';
-            show_form_button.innerText = "Reply"
+            show_form_button.innerText = "Create New Thread"
         }
         else {
             switch_form_visibility.style.display = 'block';
@@ -62,3 +63,4 @@ function SwitchNewThread() {
         }
     }
 }
+
