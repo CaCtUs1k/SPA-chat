@@ -1,4 +1,8 @@
 # SPA-chat
+
+SPA application for writing threads and lively discussions
+
+https://django-chat-2jbp.onrender.com
 # Windows/MacOS install
 
 1. If you are using PyCharm - it may propose you to automatically create venv for your project 
@@ -29,3 +33,17 @@
     docker run -p 8000:8000 cactus717/django-chat
 
 Then go to http://localhost:8000
+
+# Demo
+
+## Login
+![Login](demo/login.png)
+
+## Register
+![Register](demo/register.png)
+
+## Threads(main)
+![Threads](demo/threads.png)
+
+## Reply form
+![Reply form](demo/reply_form.png)
