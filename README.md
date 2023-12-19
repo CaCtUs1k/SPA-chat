@@ -14,12 +14,17 @@ SPA application for writing threads and lively discussions
     `source venv/bin/activate` (on macOS)
 
     `pip install -r requirements.txt`
+
+
 2. Then use following commands:
 
     `python manage.py makemigrations`
 
     `python manage.py migrate`
-3. Configure .env flie
+
+
+3. Configure .env file
+
    
 4. Use following command:
 
